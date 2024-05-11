@@ -15,7 +15,6 @@ const Layout = ({ formattedKeyPathSegments, valuesOnlyArray }) => {
         <main>
           <Menu />
           <Table formattedKeyPathSegments={formattedKeyPathSegments} valuesOnlyArray={valuesOnlyArray} />
-          <Table formattedKeyPathSegments={formattedKeyPathSegments} valuesOnlyArray={valuesOnlyArray} />
         </main>
       </div>
       <Footer />

@@ -7,6 +7,7 @@
 .content-area {
     display: flex;
     flex: 1;
+    overflow-x: auto; /* 横スクロールを有効にする */
 }
 
 .sidebar {
@@ -25,12 +26,12 @@
 .content-area {
     display: flex;
     flex: 1; /* 残りのスペースを埋める */
-    overflow: auto; /* 必要に応じてスクロールバーを表示 */
+    overflow-x: auto; /* 横スクロールを有効にする */
   }
   
   main {
     /* mainコンテンツのスタイル */
-    overflow: hidden; /* mainコンテンツ内の不要なスクロールを防ぐ */
+    overflow-x: auto; /* mainコンテンツで横スクロールを有効にする */
   }
 
 
