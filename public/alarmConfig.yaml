@@ -1,0 +1,17 @@
+Properties:
+  MetricName: "CPUUtilization"
+  Metrics: 
+    - Id: "m1"
+      MetricStat: 
+        Metric: 
+          Namespace: "AWS/EC2"
+          MetricName: "CPUUtilization"
+          Dimensions: 
+            - Name: "InstanceId"
+              Value: "i-0123456789abcdef0"
+        Period: 300
+        Stat: "Average"
+      ReturnData: true
+  Namespace: "AWS/EC2"
+  OKActions: 
+    - "arn:aws:sns:us-west-2:123456789012:myTopic"

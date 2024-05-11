@@ -1,0 +1,41 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content-area {
+    display: flex;
+    flex: 1;
+}
+
+.sidebar {
+    width: 200px;
+    /* サイドバーの幅 */
+    background-color: #f0f0f0;
+    /* サイドバーの背景色 */
+    /* 必要に応じて他のスタイルを追加 */
+}
+
+.sidebar-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.content-area {
+    display: flex;
+    flex: 1; /* 残りのスペースを埋める */
+    overflow: auto; /* 必要に応じてスクロールバーを表示 */
+  }
+  
+  main {
+    /* mainコンテンツのスタイル */
+    overflow: hidden; /* mainコンテンツ内の不要なスクロールを防ぐ */
+  }
+
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* ビューポートの高さに合わせる */
+  }

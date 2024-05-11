@@ -1,0 +1,20 @@
+/* src/index.css */
+table, th, td {
+  border: 1px solid black;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 5px;
+}
+
+.empty-cell {
+  background-color: #eee; /* 空白のセルの背景色を変更 */
+}
+
+body {
+  margin: 0;
+}

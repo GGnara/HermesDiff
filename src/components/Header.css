@@ -1,0 +1,8 @@
+.header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    height: 50px; /* 例: ヘッダーの高さを固定 */
+
+}
