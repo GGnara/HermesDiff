@@ -1,0 +1,88 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  MyAlarm1:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: "ExampleAlarm1"
+      MetricName: "CPUUtilization"
+      Namespace: "AWS/EC2"
+      Statistic: "Average"
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 80
+      ComparisonOperator: "GreaterThanThreshold"
+      AlarmActions: []
+      Dimensions:
+        - Name: "InstanceId"
+          Value: "i-1234567890abcdef0"
+
+  MyAlarm2:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: "ExampleAlarm2"
+      MetricName: "DiskReadOps"
+      Namespace: "AWS/EC2"
+      Statistic: "Sum"
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: 100
+      ComparisonOperator: "GreaterThanThreshold"
+      AlarmActions: []
+      Dimensions:
+        - Name: "InstanceId"
+          Value: "i-1234567890abcdef0"
+
+  MyAlarm3:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: "ExampleAlarm3"
+      MetricName: "NetworkIn"
+      Namespace: "AWS/EC2"
+      Statistic: "Sum"
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: 50000
+      ComparisonOperator: "GreaterThanThreshold"
+      AlarmActions: []
+      Dimensions:
+        - Name: "InstanceId"
+          Value: "i-1234567890abcdef0"
+
+  MyEvent1:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: "ExampleEvent1"
+      ScheduleExpression: "rate(5 minutes)"
+      State: "ENABLED"
+      Targets: []
+
+  MyEvent2:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: "ExampleEvent2"
+      ScheduleExpression: "rate(1 hour)"
+      State: "ENABLED"
+      Targets: []
+
+  MyEvent3:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: "ExampleEvent3"
+      ScheduleExpression: "rate(1 day)"
+      State: "ENABLED"
+      Targets: []
+
+  MyLogGroup1:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: "ExampleLogGroup1"
+
+  MyLogGroup2:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: "ExampleLogGroup2"
+
+  MyLogGroup3:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: "ExampleLogGroup3"

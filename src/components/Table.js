@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Tableコンポーネントは、整形されたKey Pathセグメントを表示するためのものです。
-const Table = ({ formattedKeyPathSegments }) => {
+const Table = ({ formattedKeyPathSegments, valuesOnlyArray }) => {
   // columnCountsステートは、セルの結合情報を保持します。
   const [columnCounts, setColumnCounts] = useState({});
 
@@ -77,7 +77,7 @@ const Table = ({ formattedKeyPathSegments }) => {
   // テーブルのヘッダーとボディを生成し、表示します。
   return (
     <div>
-      <div>Key Path Segments:</div>
+      {/* <div>Key Path Segments:</div> */}
       <table>
         <thead>
           <tr>
@@ -99,9 +99,9 @@ const Table = ({ formattedKeyPathSegments }) => {
                   // 同じ内容のセルが複数あるかどうかをチェックします
                   const isDuplicated = columnCounts.dplRowCell?.[rowIndex]?.includes(cellIndex) ?? false;
                                     // 複数ある場合のセルの数を取得します
-                  const duplicationCount = columnCounts.dplCellCounts[rowIndex]?.[cellIndex];
+                  const duplicationCount = columnCounts.dplCellCounts[rowIndex]?.[cellIndex] ?? false;
                   // 空白セルの下にある非空セルかどうかをチェックします
-                  const isHighlighted = columnCounts.blankBelowCells[cellIndex]?.includes(rowIndex);
+                  const isHighlighted = columnCounts.blankBelowCells[cellIndex]?.includes(rowIndex) ?? false;
                   // 複数あるセルの場合、colSpanを設定します //これも命名逆
                   const colSpan = isDuplicated ? duplicationCount : undefined;
                   // 空白セルの下にある非空セルの場合、rowSpanを設定します  //これも命名逆
@@ -118,6 +118,11 @@ const Table = ({ formattedKeyPathSegments }) => {
               </tr>
             );
           })}
+        <tr>
+          {valuesOnlyArray.map((value, valueIndex) => (
+            <td key={valueIndex} className="data-value">{value.toString()}</td>
+          ))}
+        </tr>
         </tbody>
       </table>
     </div>

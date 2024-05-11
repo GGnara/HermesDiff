@@ -9,7 +9,9 @@ import './index.css';
 
 const App = () => {
   const dataForExcel = useYamlhook('/alarmConfig.yaml');
-  const formattedKeyPathSegments = analyzeJsonData(dataForExcel);
+  const { formattedKeyPathSegments, valuesOnlyArray } = analyzeJsonData(dataForExcel);
+
+  console.log(valuesOnlyArray);
 
   // ダウンロードボタンが押されたときの処理
   const handleDownload = () => {
@@ -18,7 +20,7 @@ const App = () => {
 
 
   return (
-    <Layout formattedKeyPathSegments={formattedKeyPathSegments} />
+    <Layout formattedKeyPathSegments={formattedKeyPathSegments} valuesOnlyArray={valuesOnlyArray} />
   );
 };
 

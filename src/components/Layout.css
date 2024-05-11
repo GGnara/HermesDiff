@@ -39,3 +39,7 @@
     flex-direction: column;
     min-height: 100vh; /* ビューポートの高さに合わせる */
   }
+
+  .data-value {
+    background-color: #e0f7fa; /* 薄い青っぽい色 */
+  }
