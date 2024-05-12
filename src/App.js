@@ -12,7 +12,7 @@ import './index.css';
 const App = () => {
   const dataForExcel = useYamlhook('/alarmConfig.yaml');
 
-  //console.log("dataForExcel"+dataForExcel);
+  //console.log(dataForExcel)
 
 
   const [yamlSections, setYamlSections] = useState({
@@ -36,10 +36,10 @@ const App = () => {
   }, []);
 
   // ここでyamlSectionsを使用する
-  console.log("yamlSections.resources"+yamlSections.resources);
+  //console.log(yamlSections.resources);
 
-  const { formattedKeyPathSegments, valuesOnlyArray } = analyzeJsonData(yamlSections.resources);
-  console.log(valuesOnlyArray)
+  const { formattedKeyPathSegments, valuesOnlyArray } = analyzeJsonData(yamlSections.resourcesGrp[1]);
+  //console.log(valuesOnlyArray)
 
   // ダウンロードボタンが押されたときの処理
   const handleDownload = () => {

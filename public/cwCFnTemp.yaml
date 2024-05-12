@@ -16,7 +16,7 @@ Mappings:
 
 Resources:
   MyAlarm1:
-    Type: AWS::CloudWatch::Alarm
+    Type: AWS::CloudWatch::Alarm #こんにちは
     Properties:
       AlarmName: !Sub "${AWS::StackName}-CPUUtilization-Alarm"
       MetricName: "CPUUtilization"
@@ -31,6 +31,76 @@ Resources:
         - Name: "InstanceId"
           Value: !Ref InstanceId
 
+  MyAlarm2:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "${AWS::StackName}-DiskReadOps-Alarm"
+      MetricName: "DiskReadOps"
+      Namespace: "AWS/EC2"
+      Statistic: "Sum"
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: !FindInMap [AlarmThresholds, DiskReadOps, Threshold]
+      ComparisonOperator: "GreaterThanThreshold"
+      AlarmActions: []
+      Dimensions:
+        - Name: "InstanceId"
+          Value: !Ref InstanceId
+
+  # MyAlarm3:
+  #   Type: AWS::CloudWatch::Alarm
+  #   Properties:
+  #     AlarmName: !Sub "${AWS::StackName}-NetworkIn-Alarm"
+  #     MetricName: "NetworkIn"
+  #     Namespace: "AWS/EC2"
+  #     Statistic: "Sum"
+  #     Period: 300
+  #     EvaluationPeriods: 3
+  #     Threshold: !FindInMap [AlarmThresholds, NetworkIn, Threshold]
+  #     ComparisonOperator: "GreaterThanThreshold"
+  #     AlarmActions: []
+  #     Dimensions:
+  #       - Name: "InstanceId"
+  #         Value: !Ref InstanceId
+
+  # MyEvent1:
+  #   Type: AWS::Events::Rule
+  #   Properties:
+  #     Name: !Sub "${AWS::StackName}-Event1"
+  #     ScheduleExpression: "rate(5 minutes)"
+  #     State: "ENABLED"
+  #     Targets: []
+
+  # MyEvent2:
+  #   Type: AWS::Events::Rule
+  #   Properties:
+  #     Name: !Sub "${AWS::StackName}-Event2"
+  #     ScheduleExpression: "rate(1 hour)"
+  #     State: "ENABLED"
+  #     Targets: []
+
+  # MyEvent3:
+  #   Type: AWS::Events::Rule
+  #   Properties:
+  #     Name: !Sub "${AWS::StackName}-Event3"
+  #     ScheduleExpression: "rate(1 day)"
+  #     State: "ENABLED"
+  #     Targets: []
+
+  # MyLogGroup1:
+  #   Type: AWS::Logs::LogGroup
+  #   Properties:
+  #     LogGroupName: !Sub "${AWS::StackName}-LogGroup1"
+
+  # MyLogGroup2:
+  #   Type: AWS::Logs::LogGroup
+  #   Properties:
+  #     LogGroupName: !Sub "${AWS::StackName}-LogGroup2"
+
+  # MyLogGroup3:
+  #   Type: AWS::Logs::LogGroup
+  #   Properties:
+  #     LogGroupName: !Sub "${AWS::StackName}-LogGroup3"
 
 Outputs:
   Alarm1Name:
