@@ -98,19 +98,19 @@ const Table = ({ formattedKeyPathSegments, valuesOnlyArray }) => {
 
                   // 同じ内容のセルが複数あるかどうかをチェックします
                   const isDuplicated = columnCounts.dplRowCell?.[rowIndex]?.includes(cellIndex) ?? false;
-                                    // 複数ある場合のセルの数を取得します
-                  const duplicationCount = columnCounts.dplCellCounts[rowIndex]?.[cellIndex] ?? false;
+                  // 複数ある場合のセルの数を取得します
+                  const duplicationCount = columnCounts.dplCellCounts?.[rowIndex]?.[cellIndex] ?? 1;
                   // 空白セルの下にある非空セルかどうかをチェックします
-                  const isHighlighted = columnCounts.blankBelowCells[cellIndex]?.includes(rowIndex) ?? false;
-                  // 複数あるセルの場合、colSpanを設定します //これも命名逆
-                  const colSpan = isDuplicated ? duplicationCount : undefined;
-                  // 空白セルの下にある非空セルの場合、rowSpanを設定します  //これも命名逆
-                  const rowSpan = isHighlighted ? columnCounts.columnEmptyCounts[cellIndex] + 1 : undefined;
+                  const isHighlighted = columnCounts.blankBelowCells?.[cellIndex]?.includes(rowIndex) ?? false;
+                  // 複数あるセルの場合、colSpanを設定します
+                  const colSpan = isDuplicated ? duplicationCount : 1;
+                  // 空白セルの下にある非空セルの場合、rowSpanを設定します
+                  const rowSpan = isHighlighted ? (columnCounts.columnEmptyCounts?.[cellIndex] ?? 0) + 1 : 1;
                   // 複数あるセルの場合、次のセルのインデックスを更新します
                   colSpanIndex = isDuplicated ? cellIndex + duplicationCount : colSpanIndex;
 
                   return cell === '' ? null : (
-                    <td key={cellIndex} className={`column-${cellIndex}`} {...(colSpan && { colSpan })} {...(rowSpan && { rowSpan })}>
+                    <td key={cellIndex} className={`column-${cellIndex}`} colSpan={colSpan} rowSpan={rowSpan}>
                       {renderCellContent(cell, cellIndex, isHighlighted)}
                     </td>
                   );

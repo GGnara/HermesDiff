@@ -47,29 +47,29 @@ Resources:
         - Name: "InstanceId"
           Value: !Ref InstanceId
 
-  # MyAlarm3:
-  #   Type: AWS::CloudWatch::Alarm
-  #   Properties:
-  #     AlarmName: !Sub "${AWS::StackName}-NetworkIn-Alarm"
-  #     MetricName: "NetworkIn"
-  #     Namespace: "AWS/EC2"
-  #     Statistic: "Sum"
-  #     Period: 300
-  #     EvaluationPeriods: 3
-  #     Threshold: !FindInMap [AlarmThresholds, NetworkIn, Threshold]
-  #     ComparisonOperator: "GreaterThanThreshold"
-  #     AlarmActions: []
-  #     Dimensions:
-  #       - Name: "InstanceId"
-  #         Value: !Ref InstanceId
+  MyAlarm3:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub "${AWS::StackName}-NetworkIn-Alarm"
+      MetricName: "NetworkIn"
+      Namespace: "AWS/EC2"
+      Statistic: "Sum"
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: !FindInMap [AlarmThresholds, NetworkIn, Threshold]
+      ComparisonOperator: "GreaterThanThreshold"
+      AlarmActions: []
+      Dimensions:
+        - Name: "InstanceId"
+          Value: !Ref InstanceId
 
-  # MyEvent1:
-  #   Type: AWS::Events::Rule
-  #   Properties:
-  #     Name: !Sub "${AWS::StackName}-Event1"
-  #     ScheduleExpression: "rate(5 minutes)"
-  #     State: "ENABLED"
-  #     Targets: []
+  MyEvent1:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub "${AWS::StackName}-Event1"
+      ScheduleExpression: "rate(5 minutes)"
+      State: "ENABLED"
+      Targets: []
 
   # MyEvent2:
   #   Type: AWS::Events::Rule
