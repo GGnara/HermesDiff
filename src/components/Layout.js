@@ -1,9 +1,9 @@
 import React from 'react';
-import Table from './Table';
-import Menu from './Menu';
-import Header from './Header';
-import Footer from './Footer';
-import Sidebar from './Sidebar'; // サイドバーをインポート
+import Table from './Table.js'; // 拡張子を追加
+import Menu from './Menu.js'; // 拡張子を追加
+import Header from './Header.js'; // 拡張子を追加
+import Footer from './Footer.js'; // 拡張子を追加
+import Sidebar from './Sidebar.js'; // 拡張子を追加
 import './Layout.css'; // スタイルシートをインポート
 
 const Layout = ({ formattedKeyPathSegments, valuesOnlyArray }) => {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import useYamlhook from './hooks/useYamlhook';
-import loadYamlData from './hooks/loadYamlData';
-import downloadExcel from './utils/downloadExcel';
-import analyzeJsonData from './utils/analyzeJsonData';
-import Layout from './components/Layout';
-
+import useYamlhook from './hooks/useYamlhook.js'; // 拡張子を追加
+import loadYamlData from './hooks/loadYamlData.js'; // 拡張子を追加
+import downloadExcel from './utils/downloadExcel.js'; // 拡張子を追加
+import analyzeJsonData from './utils/analyzeJsonData.js'; // 拡張子を追加
+import extractValuesFromJson from './utils/extractValuesFromJson.js'; // 拡張子を追加
+import Layout from './components/Layout.js'; // 拡張子を追加
 import './index.css';
 
 const App = () => {
@@ -32,10 +32,13 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    //リソース句に最低でも一つでもリソースがあること
     if (yamlSections.resourcesGrp && yamlSections.resourcesGrp[0]) {
-        console.log(yamlSections.resourcesGrp)
-        const { formattedKeyPathSegments, valuesOnlyArray } = analyzeJsonData(yamlSections.resourcesGrp[0]);
-        console.log(formattedKeyPathSegments)
+      //Yaml解析を行う
+        const { formattedKeyPathSegments, valuesOnlyArray } = analyzeJsonData(yamlSections.resourcesGrp[0].values[1].subValue);
+        
+        const test = extractValuesFromJson(yamlSections.resourcesGrp)
+        //console.log(test)
         // layoutDataの状態を更新
         setLayoutData({ formattedKeyPathSegments, valuesOnlyArray });
     }
