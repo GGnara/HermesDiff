@@ -7,9 +7,10 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "localhost に対して Chrome を起動する",
+            "name": "localhost に対して Headless Chrome を起動する",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}",
+            "runtimeArgs": ["--headless", "--disable-gpu", "--remote-debugging-port=9222"]
         }
     ]
 }
