@@ -33,14 +33,15 @@ const App = () => {
 
   useEffect(() => {
     //リソース句に最低でも一つでもリソースがあること
-    if (yamlSections.resourcesGrp && yamlSections.resourcesGrp[0]) {
+    if (yamlSections.resourcesGrp && yamlSections.resourcesGrp) {
       //Yaml解析を行う
-        const { formattedKeyPathSegments, valuesOnlyArray } = analyzeJsonData(yamlSections.resourcesGrp[0].values[1].subValue);
-        
-        const test = extractValuesFromJson(yamlSections.resourcesGrp)
-        //console.log(test)
-        // layoutDataの状態を更新
-        setLayoutData({ formattedKeyPathSegments, valuesOnlyArray });
+      //キーを取得
+      const { formattedKeyPathSegments } = analyzeJsonData(yamlSections.resourcesGrp[0].values[1].subValue);
+      //値を取得
+      const values = extractValuesFromJson(yamlSections.resourcesGrp)
+      //値を設定
+      const valuesOnlyArray = values
+      setLayoutData({ formattedKeyPathSegments, valuesOnlyArray });
     }
   }, [yamlSections]);
 

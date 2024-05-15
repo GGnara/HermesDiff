@@ -71,36 +71,36 @@ Resources:
       State: "ENABLED"
       Targets: []
 
-  # MyEvent2:
-  #   Type: AWS::Events::Rule
-  #   Properties:
-  #     Name: !Sub "${AWS::StackName}-Event2"
-  #     ScheduleExpression: "rate(1 hour)"
-  #     State: "ENABLED"
-  #     Targets: []
+  MyEvent2:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub "${AWS::StackName}-Event2"
+      ScheduleExpression: "rate(1 hour)"
+      State: "ENABLED"
+      Targets: []
 
-  # MyEvent3:
-  #   Type: AWS::Events::Rule
-  #   Properties:
-  #     Name: !Sub "${AWS::StackName}-Event3"
-  #     ScheduleExpression: "rate(1 day)"
-  #     State: "ENABLED"
-  #     Targets: []
+  MyEvent3:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: !Sub "${AWS::StackName}-Event3"
+      ScheduleExpression: "rate(1 day)"
+      State: "ENABLED"
+      Targets: []
 
-  # MyLogGroup1:
-  #   Type: AWS::Logs::LogGroup
-  #   Properties:
-  #     LogGroupName: !Sub "${AWS::StackName}-LogGroup1"
+  MyLogGroup1:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "${AWS::StackName}-LogGroup1"
 
-  # MyLogGroup2:
-  #   Type: AWS::Logs::LogGroup
-  #   Properties:
-  #     LogGroupName: !Sub "${AWS::StackName}-LogGroup2"
+  MyLogGroup2:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "${AWS::StackName}-LogGroup2"
 
-  # MyLogGroup3:
-  #   Type: AWS::Logs::LogGroup
-  #   Properties:
-  #     LogGroupName: !Sub "${AWS::StackName}-LogGroup3"
+  MyLogGroup3:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "${AWS::StackName}-LogGroup3"
 
 Outputs:
   Alarm1Name:
