@@ -16,10 +16,13 @@ const App = () => {
     outputs: {},
     subValuesArray: [] // subValuesArrayを追加
   });
-
+  
   // layoutDataを状態として定義
   const [layoutData, setLayoutData] = useState({ formattedKeyPathSegments: {}, valuesOnlyArray: [], subValuesArray: [] });
 
+
+
+  
   useEffect(() => {
     const fetchData = async () => {
       try {

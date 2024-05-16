@@ -3,7 +3,7 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 // 初期状態
 const initialState = {
   items: [], // 配列を初期状態として設定
-  SelectService //表示するサービス
+  SelectService: null // 初期値を設定
 };
 
 // スライスの作成
@@ -28,11 +28,11 @@ const store = configureStore({
   reducer: itemsSlice.reducer
 });
 
-export const { addItem, removeItem } = itemsSlice.actions;
+export const { addItem, removeItem, setSelectService } = itemsSlice.actions;
 export default store;
 
 // HOW TO
-// import store, { addItem, removeItem } from './src/store';
+// import store, { addItem, removeItem } from './store';
 
 // // アイテムを追加
 // store.dispatch(addItem('新しいアイテム'));
