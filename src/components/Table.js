@@ -95,7 +95,6 @@ const Table = ({ formattedKeyPathSegments, valuesOnlyArray }) => {
                   if (colSpanIndex !== null && cellIndex < colSpanIndex) {
                     return null;
                   }
-
                   // 同じ内容のセルが複数あるかどうかをチェックします
                   const isDuplicated = columnCounts.dplRowCell?.[rowIndex]?.includes(cellIndex) ?? false;
                   // 複数ある場合のセルの数を取得します
@@ -118,11 +117,13 @@ const Table = ({ formattedKeyPathSegments, valuesOnlyArray }) => {
               </tr>
             );
           })}
-        <tr>
-          {valuesOnlyArray.map((value, valueIndex) => (
-            <td key={valueIndex} className="data-value">{value.toString()}</td>
-          ))}
-        </tr>
+        {valuesOnlyArray.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {row.map((value, valueIndex) => (
+              <td key={valueIndex} className="data-value">{value.toString()}</td>
+            ))}
+          </tr>
+        ))}
         </tbody>
       </table>
     </div>

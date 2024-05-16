@@ -4,14 +4,12 @@
  * @returns {Array} - 抽出された値の配列
  */
 function extractValuesFromJson(data) {
-  const value = [];
   const values =[]; 
   data.forEach((item, index) => {
     values[index] = explore(item.values[1].subValue); // 各アイテムを探索して値を収集
   });
-  return values[1];
+  return values; 
 }
-//バグあり、空の配列の場合処理できない、氷河ずれる
 
 // JSONデータを探索し、値のみを記録する関数
 function explore(data) {

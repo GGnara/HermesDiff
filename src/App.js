@@ -13,11 +13,12 @@ const App = () => {
     parameters: {},
     mappings: {},
     resources: {},
-    outputs: {}
+    outputs: {},
+    subValuesArray: [] // subValuesArrayを追加
   });
 
   // layoutDataを状態として定義
-  const [layoutData, setLayoutData] = useState({ formattedKeyPathSegments: {}, valuesOnlyArray: [] });
+  const [layoutData, setLayoutData] = useState({ formattedKeyPathSegments: {}, valuesOnlyArray: [], subValuesArray: [] });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,8 +41,8 @@ const App = () => {
       //値を取得
       const values = extractValuesFromJson(yamlSections.resourcesGrp)
       //値を設定
-      const valuesOnlyArray = values
-      setLayoutData({ formattedKeyPathSegments, valuesOnlyArray });
+      const valuesOnlyArray = values //一旦0返してる
+      setLayoutData({ formattedKeyPathSegments, valuesOnlyArray, subValuesArray: yamlSections.subValuesArray });
     }
   }, [yamlSections]);
 
@@ -54,7 +55,11 @@ const App = () => {
   return (
     <div>
       {layoutData.valuesOnlyArray.length > 0 ? (
-        <Layout formattedKeyPathSegments={layoutData.formattedKeyPathSegments} valuesOnlyArray={layoutData.valuesOnlyArray} />
+        <Layout 
+          formattedKeyPathSegments={layoutData.formattedKeyPathSegments} 
+          valuesOnlyArray={layoutData.valuesOnlyArray} 
+          subValuesArray={layoutData.subValuesArray} // subValuesArrayを渡す
+        />
       ) : (
         <div>データをロード中...</div>
       )}

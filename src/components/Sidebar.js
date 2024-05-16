@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Sidebar = () => {
+const Sidebar = ({ subValuesArray }) => {
   return (
     <div className="sidebar">
       {/* サイドバーの内容 */}
-      <div className="sidebar-item">項目1</div>
-      <div className="sidebar-item">項目2</div>
-      <div className="sidebar-item">項目3</div>
+      {subValuesArray.map((item, index) => (
+        <div key={index} className="sidebar-item">{item}</div>
+      ))}
       {/* 他の項目 */}
     </div>
   );

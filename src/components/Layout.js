@@ -6,12 +6,12 @@ import Footer from './Footer.js'; // 拡張子を追加
 import Sidebar from './Sidebar.js'; // 拡張子を追加
 import './Layout.css'; // スタイルシートをインポート
 
-const Layout = ({ formattedKeyPathSegments, valuesOnlyArray }) => {
+const Layout = ({ formattedKeyPathSegments, valuesOnlyArray ,subValuesArray}) => {
   return (
     <div className="layout">
       <Header />
       <div className="content-area">
-        <Sidebar /> {/* サイドバーを追加 */}
+        <Sidebar subValuesArray={subValuesArray} />
         <main>
           <Menu />
           <Table formattedKeyPathSegments={formattedKeyPathSegments} valuesOnlyArray={valuesOnlyArray} />
