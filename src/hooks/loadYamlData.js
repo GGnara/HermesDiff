@@ -68,7 +68,7 @@ const loadYamlData = async (filePath) => {
     const mappingsGrp = extractSectionKeys(mappings);
     const resourcesGrp = extractSectionKeys(resources);
     const outputsGrp = extractSectionKeys(outputs);
-    const subValuesArray = [...new Set(resourcesGrp.map(resource => resource.values[0].subValue.replace('AWS::', '')))];
+    const subValuesArray = [...new Set(resourcesGrp.map(resource => resource.values[0].subValue))];
     // 各セクションを含むオブジェクトを返す
     return { parametersGrp, mappingsGrp, resourcesGrp, outputsGrp,subValuesArray };
   } catch (error) {
