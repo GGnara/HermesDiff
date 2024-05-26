@@ -1,16 +1,68 @@
 import React, { useState, useEffect } from 'react';
+import store, { StoreSelectServices, StoreSelectService, StoreAllGrp } from '../store.js';
+import analyzeJsonData from '../utils/analyzeJsonData.js';
+import extractValuesFromJson from '../utils/extractValuesFromJson.js';
 
 // Tableコンポーネントは、整形されたKey Pathセグメントを表示するためのものです。
-const Table = ({ formattedKeyPathSegments, valuesOnlyArray }) => {
+const Table = () => {
   // columnCountsステートは、セルの結合情報を保持します。
   const [columnCounts, setColumnCounts] = useState({});
-
-  // formattedKeyPathSegmentsの変更に応じてセルの結合情報を更新します。
+  const [valuesOnlyArray, setValuesOnlyArray] = useState([]);
+  const [formattedKeyPathSegments, setFormattedKeyPathSegments] = useState([]);
+  
   useEffect(() => {
-    const rowSpanMap = calculateRowSpan(formattedKeyPathSegments);
-    const dplSpanMap = calculateDplRowspan(formattedKeyPathSegments);
-    setColumnCounts({ ...rowSpanMap, ...dplSpanMap });
-  }, [formattedKeyPathSegments]);
+    const resourcesGrp = store.getState().StoreAllGrp;
+    if (resourcesGrp) {
+      // StoreResourcesGrpが存在する場合の処理をここに記述
+      console.log('StoreResourcesGrp:', resourcesGrp);
+      // 必要に応じて他の処理を追加
+    }
+  }, []);
+  useEffect(() => {
+    const handleStoreAllGrpChange = () => {
+      const AllGrp = store.getState().StoreAllGrp;
+      handleAllGrpChange(AllGrp);
+    };
+
+    // ストアの変更を監視するリスナーを追加
+    const unsubscribe = store.subscribe(handleStoreAllGrpChange);
+
+    // クリーンアップ関数を返して、コンポーネントのアンマウント時にリスナーを解除
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const handleAllGrpChange = (AllGrp) => {
+    if (AllGrp) {
+      // StoreResourcesGrpが存在する場合の処理をここに記述
+      console.log('StoreResourcesGrpが変更されました:', AllGrp);
+      // 必要に応じて他の処理を追加
+      //表示サービス
+      let selectedService = store.getState().SelectService;
+      //storeにサービスがない場合、Yamlの一番上のサービス指定
+      if (!selectedService) {
+        selectedService = AllGrp.resourcesGrp[0].values[0].subValue;
+        store.dispatch(StoreSelectService(selectedService));
+      }
+      //対象サービスのみを元Yaml一覧から取得
+      const filteredResourcesGrp = AllGrp.resourcesGrp.filter(resource =>
+        resource.values && resource.values[0] && resource.values[0].subValue === selectedService
+      );
+      //キーを取得
+      const { formattedKeyPathSegments } = analyzeJsonData(filteredResourcesGrp[0].values[1].subValue);
+      //値を取得
+      const values = extractValuesFromJson(filteredResourcesGrp)
+      //値を設定
+      setValuesOnlyArray(values);
+      
+      //colとrows生成
+      setFormattedKeyPathSegments(formattedKeyPathSegments);
+      const rowSpanMap = calculateRowSpan(formattedKeyPathSegments);
+      const dplSpanMap = calculateDplRowspan(formattedKeyPathSegments);
+      setColumnCounts({ ...rowSpanMap, ...dplSpanMap });
+    }
+  };
 
   // セルの内容を処理し、表示用のspan要素を生成します。
   const renderCellContent = (cell, cellIndex, isHighlighted) => {
@@ -117,13 +169,13 @@ const Table = ({ formattedKeyPathSegments, valuesOnlyArray }) => {
               </tr>
             );
           })}
-        {valuesOnlyArray.map((row, rowIndex) => (
-          <tr key={rowIndex}>
-            {row.map((value, valueIndex) => (
-              <td key={valueIndex} className="data-value">{value.toString()}</td>
-            ))}
-          </tr>
-        ))}
+          {valuesOnlyArray.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {row.map((value, valueIndex) => (
+                <td key={valueIndex} className="data-value">{value.toString()}</td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

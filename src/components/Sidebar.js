@@ -1,12 +1,12 @@
 import React from 'react';
 import './Sidebar.css';
-import store, { setSelectService } from '../store.js';
+import store, { StoreSelectService } from '../store.js';
 
 const Sidebar = ({ subValuesArray }) => {
   const listServices = store.getState().SelectServices;
 
   const handleClick = (item) => {
-    store.dispatch(setSelectService(item));
+    store.dispatch(StoreSelectService(item));
   };
 
   return (

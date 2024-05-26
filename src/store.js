@@ -12,18 +12,19 @@ const itemsSlice = createSlice({
   name: 'items',
   initialState,
   reducers: {
-    setSelectService: (state, action) => {
+    StoreSelectService: (state, action) => {
       state.SelectService = action.payload; //現状表示するべきサービス
     },
-    setSelectServices: (state, action) => {
+    StoreSelectServices: (state, action) => {
       state.SelectServices = action.payload; // yamlのサービス一覧
     },
-    addItem: (state, action) => {
-      state.items.push(action.payload);
+    StoreCLIValue: (state, action) => {
+      state.StoreCLIValue = action.payload; // yamlのサービス一覧
     },
-    removeItem: (state, action) => {
-      state.items = state.items.filter((item, index) => index !== action.payload);
+    StoreAllGrp: (state, action) => {
+      state.StoreAllGrp = action.payload; // yamlのサービス一覧
     }
+
   }
 });
 
@@ -32,11 +33,11 @@ const store = configureStore({
   reducer: itemsSlice.reducer
 });
 
-export const { addItem, removeItem, setSelectServices ,setSelectService} = itemsSlice.actions;
+export const { StoreSelectServices ,StoreSelectService,StoreCLIValue,StoreAllGrp} = itemsSlice.actions;
 export default store;
 
 // HOW TO
-// import store, { addItem, removeItem, setSelectServices ,setSelectService } from './store.js';
+// import store, { addItem, removeItem, StoreSelectServices ,StoreSelectService } from './store.js';
 
 // // アイテムを追加
 // store.dispatch(addItem('新しいアイテム'));

@@ -13,12 +13,21 @@ const port = 53906; // ポートを53906に設定
 app.use(cors());
 
 app.get('/execute-aws-cli', (req, res) => {
-  const command = `aws s3 ls --region ${process.env.AWS_REGION}`;
+  const accessKeyId = req.headers['x-aws-access-key-id'];
+  const secretAccessKey = req.headers['x-aws-secret-access-key'];
+  const region = req.headers['x-aws-region'];
+
+  if (!accessKeyId || !secretAccessKey || !region) {
+    res.status(400).send('必要なヘッダーが不足しています');
+    return;
+  }
+
+  const command = `aws s3 ls --region ${region}`;
   exec(command, {
     env: {
       ...process.env,
-      AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
-      AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+      AWS_ACCESS_KEY_ID: accessKeyId,
+      AWS_SECRET_ACCESS_KEY: secretAccessKey,
     }
   }, (error, stdout, stderr) => {
     if (error) {
