@@ -40,11 +40,7 @@ const Table = () => {
       // 必要に応じて他の処理を追加
       //表示サービス
       let selectedService = store.getState().SelectService;
-      //storeにサービスがない場合、Yamlの一番上のサービス指定
-      if (!selectedService) {
-        selectedService = AllGrp.resourcesGrp[0].values[0].subValue;
-        store.dispatch(StoreSelectService(selectedService));
-      }
+
       //対象サービスのみを元Yaml一覧から取得
       const filteredResourcesGrp = AllGrp.resourcesGrp.filter(resource =>
         resource.values && resource.values[0] && resource.values[0].subValue === selectedService
