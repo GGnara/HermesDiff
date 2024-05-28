@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import store, { StoreSelectServices, StoreSelectService, StoreAllGrp } from '../store.js';
+import React, { useState, useEffect, useRef } from 'react';
+import store, { StoreSelectServices, StoreSelectService, StoreAllGrp, StoreLogicalID } from '../store.js';
 import analyzeJsonData from '../utils/analyzeJsonData.js';
 import extractValuesFromJson from '../utils/extractValuesFromJson.js';
+
 
 // Tableコンポーネントは、整形されたKey Pathセグメントを表示するためのものです。
 const Table = () => {
@@ -9,34 +10,62 @@ const Table = () => {
   const [columnCounts, setColumnCounts] = useState({});
   const [valuesOnlyArray, setValuesOnlyArray] = useState([]);
   const [formattedKeyPathSegments, setFormattedKeyPathSegments] = useState([]);
+  const [logicalIds, setLogicalIds] = useState([]);
+  const [TaggleCLIValuesFlg, setTaggleCLIValuesFlg] = useState(false);
+  const prevProcessingFlag = useRef(false);
   
   useEffect(() => {
-    const resourcesGrp = store.getState().StoreAllGrp;
-    if (resourcesGrp) {
-      // StoreResourcesGrpが存在する場合の処理をここに記述
-      console.log('StoreResourcesGrp:', resourcesGrp);
-      // 必要に応じて他の処理を追加
-    }
+    const handleStoreChange = () => {
+      // ストアの現在の状態を取得
+      const state = store.getState();
+  
+      // processingFlag状態に応じてレンダリングを切り替える
+      if (state.processingFlag !== prevProcessingFlag.current) {
+        if (state.processingFlag) {
+          // 処理中のレンダリング
+          console.log("CLI処理中");
+          setTaggleCLIValuesFlg(true);
+        } else {
+          // 通常のレンダリング
+          console.log("CLI処理なし");
+          setTaggleCLIValuesFlg(false);
+        }
+        prevProcessingFlag.current = state.processingFlag;
+      }
+    };
+  
+    const unsubscribe = store.subscribe(handleStoreChange);
+  
+    return () => {
+      unsubscribe();
+    };
   }, []);
+
+
   useEffect(() => {
     const handleStoreAllGrpChange = () => {
       const AllGrp = store.getState().StoreAllGrp;
       handleAllGrpChange(AllGrp);
     };
-
     // ストアの変更を監視するリスナーを追加
     const unsubscribe = store.subscribe(handleStoreAllGrpChange);
-
     // クリーンアップ関数を返して、コンポーネントのアンマウント時にリスナーを解除
     return () => {
       unsubscribe();
     };
   }, []);
 
+  //論理IDをstoreに格納
+  useEffect(() => {
+    if (logicalIds.length > 0) {
+      setTimeout(() => {
+        store.dispatch(StoreLogicalID(logicalIds));
+      }, 0);
+    }
+  }, [logicalIds]);
+
   const handleAllGrpChange = (AllGrp) => {
     if (AllGrp) {
-      // StoreResourcesGrpが存在する場合の処理をここに記述
-      console.log('StoreResourcesGrpが変更されました:', AllGrp);
       // 必要に応じて他の処理を追加
       //表示サービス
       let selectedService = store.getState().SelectService;
@@ -45,13 +74,24 @@ const Table = () => {
       const filteredResourcesGrp = AllGrp.resourcesGrp.filter(resource =>
         resource.values && resource.values[0] && resource.values[0].subValue === selectedService
       );
+
+      //論理IDを取得
+      const newLogicalIds = AllGrp.resourcesGrp
+        .filter(resource => resource.values && resource.values[0] && resource.values[0].subValue === selectedService)
+        .map(resource => resource.key);
+
+      // 論理IDが変更された場合のみ状態を更新
+      if (JSON.stringify(newLogicalIds) !== JSON.stringify(logicalIds)) {
+        setLogicalIds(newLogicalIds);
+      }
+
       //キーを取得
       const { formattedKeyPathSegments } = analyzeJsonData(filteredResourcesGrp[0].values[1].subValue);
       //値を取得
-      const values = extractValuesFromJson(filteredResourcesGrp)
+      const values = extractValuesFromJson(filteredResourcesGrp);
       //値を設定
       setValuesOnlyArray(values);
-      
+
       //colとrows生成
       setFormattedKeyPathSegments(formattedKeyPathSegments);
       const rowSpanMap = calculateRowSpan(formattedKeyPathSegments);
@@ -166,11 +206,20 @@ const Table = () => {
             );
           })}
           {valuesOnlyArray.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {row.map((value, valueIndex) => (
-                <td key={valueIndex} className="data-value">{value.toString()}</td>
-              ))}
-            </tr>
+            <React.Fragment key={rowIndex}>
+              <tr className={`row-${logicalIds[rowIndex]}`}>
+                {row.map((value, valueIndex) => (
+                  <td key={valueIndex} className="data-value">{value.toString()}</td>
+                ))}
+              </tr>
+              {TaggleCLIValuesFlg && (
+                <tr className={`row-cli-${logicalIds[rowIndex]}`}>
+                  {row.map((_, valueIndex) => (
+                    <td key={`cli-${valueIndex}`} className="data-value"></td>
+                  ))}
+                </tr>
+              )}
+            </React.Fragment>
           ))}
         </tbody>
       </table>

@@ -3,7 +3,7 @@ Parameters:
   InstanceId:
     Description: "EC2 Instance ID"
     Type: "String"
-    Default: "i-0abcdef1234567890"  # 適当なデフォルトのインスタンスID
+    Default: "i-0abcdef1234567890"
 
 Mappings:
   AlarmThresholds:
@@ -16,7 +16,7 @@ Mappings:
 
 Resources:
   MyAlarm1:
-    Type: AWS::CloudWatch::Alarm #こんにちは
+    Type: AWS::CloudWatch::Alarm
     Properties:
       AlarmName: !Sub "${AWS::StackName}-CPUUtilization-Alarm"
       MetricName: "CPUUtilization"
@@ -69,7 +69,9 @@ Resources:
       Name: !Sub "${AWS::StackName}-Event1"
       ScheduleExpression: "rate(5 minutes)"
       State: "ENABLED"
-      Targets: []
+      Targets:
+        - Arn: !Ref MySNSTopic
+          Id: "MySNSTarget"
 
   MyEvent2:
     Type: AWS::Events::Rule
@@ -77,7 +79,9 @@ Resources:
       Name: !Sub "${AWS::StackName}-Event2"
       ScheduleExpression: "rate(1 hour)"
       State: "ENABLED"
-      Targets: []
+      Targets:
+        - Arn: !Ref MySNSTopic
+          Id: "MySNSTarget"
 
   MyEvent3:
     Type: AWS::Events::Rule
@@ -85,7 +89,14 @@ Resources:
       Name: !Sub "${AWS::StackName}-Event3"
       ScheduleExpression: "rate(1 day)"
       State: "ENABLED"
-      Targets: []
+      Targets:
+        - Arn: !Ref MySNSTopic
+          Id: "MySNSTarget"
+
+  MySNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "My SNSTopic"
 
   MyLogGroup1:
     Type: AWS::Logs::LogGroup

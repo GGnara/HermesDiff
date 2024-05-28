@@ -12,17 +12,17 @@ const port = 53906; // ポートを53906に設定
 // CORSを有効にする
 app.use(cors());
 
-app.get('/execute-aws-cli', (req, res) => {
+app.get('/execute-aws-cli-stack-details', (req, res) => {
   const accessKeyId = req.headers['x-aws-access-key-id'];
   const secretAccessKey = req.headers['x-aws-secret-access-key'];
   const region = req.headers['x-aws-region'];
+  const stackName = req.headers['x-stack-name'];
 
   if (!accessKeyId || !secretAccessKey || !region) {
     res.status(400).send('必要なヘッダーが不足しています');
     return;
   }
-
-  const command = `aws s3 ls --region ${region}`;
+  const command = `aws cloudformation describe-stack-resources --stack-name ${stackName} --query "StackResources[*].[LogicalResourceId,PhysicalResourceId]" --output json --region ${region}`;
   exec(command, {
     env: {
       ...process.env,
@@ -31,10 +31,12 @@ app.get('/execute-aws-cli', (req, res) => {
     }
   }, (error, stdout, stderr) => {
     if (error) {
+      console.error(`エラーが発生しました: ${error.message}`);
       res.status(500).send(`エラーが発生しました: ${error.message}`);
       return;
     }
     if (stderr) {
+      console.error(`標準エラー出力: ${stderr}`);
       res.status(500).send(`標準エラー出力: ${stderr}`);
       return;
     }

@@ -11,8 +11,7 @@ import analyzeJsonData from './utils/analyzeJsonData.js';
 import extractValuesFromJson from './utils/extractValuesFromJson.js';
 import Layout from './components/Layout.js';
 import './index.css';
-import store, { StoreSelectServices, StoreSelectService, StoreAllGrp } from './store.js';
-import axios from 'axios';
+import store, { StoreSelectServices, StoreSelectService, StoreAllGrp ,StoreStackName} from './store.js';
 
 const App = () => {
   const dataForExcel = useYamlhook('/alarmConfig.yaml');
@@ -25,13 +24,15 @@ const App = () => {
   });
 
   // layoutDataを状態として定義
-  const [layoutData, setLayoutData] = useState({ formattedKeyPathSegments: {}, valuesOnlyArray: [], subValuesArray: [] });
   const selectedService = useSelector(state => state.SelectService);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await loadYamlData('/cwCFnTemp.yaml');
+        const yamlFilePath = '/cwCFnTemp.yaml';
+        const data = await loadYamlData(yamlFilePath);
+        const fileNameWithoutExtension = yamlFilePath.split('/').pop().split('.')[0];
+        store.dispatch(StoreStackName(fileNameWithoutExtension));
         setYamlSections(data);
       } catch (error) {
         console.error("YAMLデータの読み込みに失敗しました:", error);

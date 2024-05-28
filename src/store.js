@@ -4,7 +4,10 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 const initialState = {
   items: [], // 配列を初期状態として設定
   SelectService:"",
-  SelectServices: [] // 初期値を配列として設定
+  SelectServices: [], // 初期値を配列として設定
+  processingFlag: false, // 新しい状態を追加
+  StackName: "", // 新しい状態を追加
+  LogicalID: "" // 新しい状態を追加
 };
 
 // スライスの作成
@@ -23,8 +26,16 @@ const itemsSlice = createSlice({
     },
     StoreAllGrp: (state, action) => {
       state.StoreAllGrp = action.payload; // yamlのサービス一覧
+    },
+    StoreTaggleCLIValuesFlg: (state) => {
+      state.processingFlag = !state.processingFlag; // 状態を反転
+    },
+    StoreStackName: (state, action) => {
+      state.StackName = action.payload; // スタック名を保存
+    },
+    StoreLogicalID: (state, action) => {
+      state.LogicalID = action.payload; // 論理IDを保存
     }
-
   }
 });
 
@@ -33,7 +44,7 @@ const store = configureStore({
   reducer: itemsSlice.reducer
 });
 
-export const { StoreSelectServices ,StoreSelectService,StoreCLIValue,StoreAllGrp} = itemsSlice.actions;
+export const { StoreSelectServices ,StoreSelectService,StoreCLIValue,StoreAllGrp,StoreTaggleCLIValuesFlg, StoreStackName, StoreLogicalID } = itemsSlice.actions;
 export default store;
 
 // HOW TO
