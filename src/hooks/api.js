@@ -29,7 +29,7 @@ export const fetchAwsStackDetails = async (accessKeyId, secretAccessKey, region,
         'x-aws-access-key-id': accessKeyId,
         'x-aws-secret-access-key': secretAccessKey,
         'x-aws-region': region,
-        'x-stack-name': stackName // ヘッダーに追加
+        'x-stack-name': stackName
       },
     });
     return response.data;

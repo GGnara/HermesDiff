@@ -22,7 +22,7 @@ app.get('/execute-aws-cli-stack-details', (req, res) => {
     res.status(400).send('必要なヘッダーが不足しています');
     return;
   }
-  const command = `aws cloudformation describe-stack-resources --stack-name ${stackName} --query "StackResources[*].[LogicalResourceId,PhysicalResourceId]" --output json --region ${region}`;
+  const command = `aws cloudformation describe-stack-resources --stack-name ${stackName} --query "StackResources[*].[LogicalResourceId,PhysicalResourceId,ResourceType]" --output json --region ${region}`;
   exec(command, {
     env: {
       ...process.env,
@@ -40,7 +40,8 @@ app.get('/execute-aws-cli-stack-details', (req, res) => {
       res.status(500).send(`標準エラー出力: ${stderr}`);
       return;
     }
-    res.send(`コマンドの出力: ${stdout}`);
+    res.setHeader('Content-Type', 'application/json'); // JSON形式で返す
+    res.send(stdout); // コマンドの出力をそのまま送信
   });
 });
 

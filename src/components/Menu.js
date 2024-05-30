@@ -1,7 +1,7 @@
 import React from 'react';
 import './Menu.css'; // Menuのスタイルシートをインポート
 import { fetchAwsStackDetails } from '../hooks/api.js';
-import store, { StoreCLIValue ,StoreTaggleCLIValuesFlg} from '../store.js';
+import store, { StoreCLIValue, StoreTaggleCLIValuesFlg } from '../store.js';
 const Menu = () => {
   //CLI 処理ボタン
   const handleClick = async () => {
@@ -15,8 +15,7 @@ const Menu = () => {
         throw new Error('AWS環境変数が設定されていません');
       }
       const data = await fetchAwsStackDetails(awsAccessKeyId, awsSecretAccessKey, awsRegion);
-      console.log('AWS CLIデータ:', typeof(data));
-      alert(data);
+      console.log('AWS CLIデータ:', data);
       store.dispatch(StoreCLIValue(data));
       console.log('ストアのCLIValue:', store.getState().StoreCLIValue);
     } catch (error) {

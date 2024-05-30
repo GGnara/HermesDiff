@@ -13,7 +13,7 @@ const Table = () => {
   const [logicalIds, setLogicalIds] = useState([]);
   const [TaggleCLIValuesFlg, setTaggleCLIValuesFlg] = useState(false);
   const prevProcessingFlag = useRef(false);
-  
+
   useEffect(() => {
     const handleStoreChange = () => {
       // ストアの現在の状態を取得
@@ -53,7 +53,7 @@ const Table = () => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [logicalIds]);
 
   //論理IDをstoreに格納
   useEffect(() => {
@@ -84,7 +84,6 @@ const Table = () => {
       if (JSON.stringify(newLogicalIds) !== JSON.stringify(logicalIds)) {
         setLogicalIds(newLogicalIds);
       }
-
       //キーを取得
       const { formattedKeyPathSegments } = analyzeJsonData(filteredResourcesGrp[0].values[1].subValue);
       //値を取得

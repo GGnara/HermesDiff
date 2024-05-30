@@ -18,7 +18,9 @@ Resources:
   MyAlarm1:
     Type: AWS::CloudWatch::Alarm
     Properties:
+      ActionsEnabled: true
       AlarmName: !Sub "${AWS::StackName}-CPUUtilization-Alarm"
+      AlarmDescription: "Alarm when CPU exceeds threshold"
       MetricName: "CPUUtilization"
       Namespace: "AWS/EC2"
       Statistic: "Average"
@@ -26,15 +28,40 @@ Resources:
       EvaluationPeriods: 2
       Threshold: !FindInMap [AlarmThresholds, CPUUtilization, Threshold]
       ComparisonOperator: "GreaterThanThreshold"
-      AlarmActions: []
+      AlarmActions:
+        - !Ref MySNSTopic1
+        - !Ref MySNSTopic2
+        - !Ref MySNSTopic3
+        - !Ref MySNSTopic4
+        - !Ref MySNSTopic5
+        - !Ref MySNSTopic6
+        - !Ref MySNSTopic7
+        - !Ref MySNSTopic8
+        - !Ref MySNSTopic9
+        - !Ref MySNSTopic10
+      InsufficientDataActions: []
+      OKActions:
+        - !Ref MySNSTopic1
       Dimensions:
         - Name: "InstanceId"
           Value: !Ref InstanceId
+      DatapointsToAlarm: 1
+      EvaluateLowSampleCountPercentile: "ignore"
+      ExtendedStatistic: "p99"
+      Metrics: []
+      Tags:
+        - Key: "Name"
+          Value: "CPUAlarm"
+      ThresholdMetricId: ""
+      TreatMissingData: "notBreaching"
+      Unit: "Percent"
 
   MyAlarm2:
     Type: AWS::CloudWatch::Alarm
     Properties:
+      ActionsEnabled: true
       AlarmName: !Sub "${AWS::StackName}-DiskReadOps-Alarm"
+      AlarmDescription: "Alarm when DiskReadOps exceeds threshold"
       MetricName: "DiskReadOps"
       Namespace: "AWS/EC2"
       Statistic: "Sum"
@@ -42,15 +69,40 @@ Resources:
       EvaluationPeriods: 3
       Threshold: !FindInMap [AlarmThresholds, DiskReadOps, Threshold]
       ComparisonOperator: "GreaterThanThreshold"
-      AlarmActions: []
+      AlarmActions:
+        - !Ref MySNSTopic1
+        - !Ref MySNSTopic2
+        - !Ref MySNSTopic3
+        - !Ref MySNSTopic4
+        - !Ref MySNSTopic5
+        - !Ref MySNSTopic6
+        - !Ref MySNSTopic7
+        - !Ref MySNSTopic8
+        - !Ref MySNSTopic9
+        - !Ref MySNSTopic10
+      InsufficientDataActions: []
+      OKActions:
+        - !Ref MySNSTopic1
       Dimensions:
         - Name: "InstanceId"
           Value: !Ref InstanceId
+      DatapointsToAlarm: 1
+      EvaluateLowSampleCountPercentile: "ignore"
+      ExtendedStatistic: "p99"
+      Metrics: []
+      Tags:
+        - Key: "Name"
+          Value: "DiskReadOpsAlarm"
+      ThresholdMetricId: ""
+      TreatMissingData: "notBreaching"
+      Unit: "Count"
 
   MyAlarm3:
     Type: AWS::CloudWatch::Alarm
     Properties:
+      ActionsEnabled: true
       AlarmName: !Sub "${AWS::StackName}-NetworkIn-Alarm"
+      AlarmDescription: "Alarm when NetworkIn exceeds threshold"
       MetricName: "NetworkIn"
       Namespace: "AWS/EC2"
       Statistic: "Sum"
@@ -58,10 +110,33 @@ Resources:
       EvaluationPeriods: 3
       Threshold: !FindInMap [AlarmThresholds, NetworkIn, Threshold]
       ComparisonOperator: "GreaterThanThreshold"
-      AlarmActions: []
+      AlarmActions:
+        - !Ref MySNSTopic1
+        - !Ref MySNSTopic2
+        - !Ref MySNSTopic3
+        - !Ref MySNSTopic4
+        - !Ref MySNSTopic5
+        - !Ref MySNSTopic6
+        - !Ref MySNSTopic7
+        - !Ref MySNSTopic8
+        - !Ref MySNSTopic9
+        - !Ref MySNSTopic10
+      InsufficientDataActions: []
+      OKActions:
+        - !Ref MySNSTopic1
       Dimensions:
         - Name: "InstanceId"
           Value: !Ref InstanceId
+      DatapointsToAlarm: 1
+      EvaluateLowSampleCountPercentile: "ignore"
+      ExtendedStatistic: "p99"
+      Metrics: []
+      Tags:
+        - Key: "Name"
+          Value: "NetworkInAlarm"
+      ThresholdMetricId: ""
+      TreatMissingData: "notBreaching"
+      Unit: "Bytes"
 
   MyEvent1:
     Type: AWS::Events::Rule
@@ -70,7 +145,7 @@ Resources:
       ScheduleExpression: "rate(5 minutes)"
       State: "ENABLED"
       Targets:
-        - Arn: !Ref MySNSTopic
+        - Arn: !Ref MySNSTopic1
           Id: "MySNSTarget"
 
   MyEvent2:
@@ -80,7 +155,7 @@ Resources:
       ScheduleExpression: "rate(1 hour)"
       State: "ENABLED"
       Targets:
-        - Arn: !Ref MySNSTopic
+        - Arn: !Ref MySNSTopic2
           Id: "MySNSTarget"
 
   MyEvent3:
@@ -90,13 +165,58 @@ Resources:
       ScheduleExpression: "rate(1 day)"
       State: "ENABLED"
       Targets:
-        - Arn: !Ref MySNSTopic
+        - Arn: !Ref MySNSTopic3
           Id: "MySNSTarget"
 
-  MySNSTopic:
+  MySNSTopic1:
     Type: AWS::SNS::Topic
     Properties:
-      DisplayName: "My SNSTopic"
+      DisplayName: "My SNSTopic1"
+
+  MySNSTopic2:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "My SNSTopic2"
+
+  MySNSTopic3:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "My SNSTopic3"
+
+  MySNSTopic4:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "My SNSTopic4"
+
+  MySNSTopic5:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "My SNSTopic5"
+
+  MySNSTopic6:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "My SNSTopic6"
+
+  MySNSTopic7:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "My SNSTopic7"
+
+  MySNSTopic8:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "My SNSTopic8"
+
+  MySNSTopic9:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "My SNSTopic9"
+
+  MySNSTopic10:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: "My SNSTopic10"
 
   MyLogGroup1:
     Type: AWS::Logs::LogGroup

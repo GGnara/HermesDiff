@@ -4,10 +4,13 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "js-yaml": "^4.1.0",
     "react": "^18.2.0",
@@ -15,22 +18,19 @@
     "react-redux": "^7.2.4",
     "react-scripts": "5.0.1",
     "redux": "^4.1.0",
-    "@reduxjs/toolkit": "^1.6.1",
     "web-vitals": "^2.1.4",
-    "xlsx": "^0.18.5",
-    "dotenv": "^10.0.0",
-    "cors": "^2.8.5"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "xlsx-js-style": "^1.2.0",
-    "concurrently": "^6.0.0"
+    "concurrently": "^6.5.1",
+    "nodemon": "^3.1.2",
+    "xlsx-js-style": "^1.2.0"
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"react-scripts start\"",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "node CLIServer.js"
+    "client": "react-scripts start", 
+    "server": "nodemon CLIServer.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "eslintConfig": {
     "extends": [
