@@ -1,8 +1,28 @@
-import React from 'react';
 import './Menu.css'; // Menuのスタイルシートをインポート
-import { fetchAwsStackDetails } from '../hooks/api.js';
+import { fetchAwsStackDetails, fetchAwsData } from '../utils/api.js';
 import store, { StoreCLIValue, StoreTaggleCLIValuesFlg } from '../store.js';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import useCompareCLIValues from '../hooks/useCompareCLIValues.js';
+
 const Menu = () => {
+  // ReduxのストアからCLIの値を取得
+  const cliValue = useSelector(state => state.StoreCLIValue);
+  // Reduxのストアから選択されたサービスを取得
+  const selectedService = useSelector(state => state.SelectService);
+
+  // カスタムフックを使用してフィルタリングされたCLIの値を取得
+  const filteredValues = useCompareCLIValues();
+
+  useEffect(() => {
+    // CLIの値をコンソールに出力
+    // console.log('CLI Value:', cliValue);
+    // // 選択されたサービスをコンソールに出力
+    // console.log('Selected Service:', selectedService);
+    // // フィルタリングされたCLIの値をコンソールに出力
+    // console.log('Filtered CLI Values:', filteredValues);
+  }, [cliValue, selectedService, filteredValues]); // cliValueまたはselectedServiceが変更された場合に再実行
+
   //CLI 処理ボタン
   const handleClick = async () => {
     //cli処理開始flag
@@ -14,8 +34,14 @@ const Menu = () => {
       if (!awsAccessKeyId || !awsSecretAccessKey || !awsRegion) {
         throw new Error('AWS環境変数が設定されていません');
       }
-      const data = await fetchAwsStackDetails(awsAccessKeyId, awsSecretAccessKey, awsRegion);
-      console.log('AWS CLIデータ:', data);
+      const stackDetails = await fetchAwsStackDetails(awsAccessKeyId, awsSecretAccessKey, awsRegion);
+      console.log('AWS Stack Details:', stackDetails);
+      
+      // fetchAwsStackDetailsの結果が終わってからfetchAwsDataを実行
+      const cliCommand = `cloudwatch describe-alarms --alarm-names ${stackDetails[0][1]}`; // ハードコーディングされたCLIコマンド
+      const data = await fetchAwsData(awsAccessKeyId, awsSecretAccessKey, awsRegion, cliCommand);
+      
+      // console.log('AWS CLIデータ:', data);
       store.dispatch(StoreCLIValue(data));
       console.log('ストアのCLIValue:', store.getState().StoreCLIValue);
     } catch (error) {
@@ -23,7 +49,6 @@ const Menu = () => {
       alert('環境変数の取得に失敗しました。詳細はコンソールを確認してください。');
     }
   };
-
 
   return (
     <nav className="menu">

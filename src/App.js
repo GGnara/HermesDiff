@@ -5,10 +5,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import useYamlhook from './hooks/useYamlhook.js';
-import loadYamlData from './hooks/loadYamlData.js';
+import loadYamlData from './utils/loadYamlData.js';
 import downloadExcel from './utils/downloadExcel.js';
-import analyzeJsonData from './utils/analyzeJsonData.js';
-import extractValuesFromJson from './utils/extractValuesFromJson.js';
 import Layout from './components/Layout.js';
 import './index.css';
 import store, { StoreSelectServices, StoreSelectService, StoreAllGrp ,StoreStackName} from './store.js';

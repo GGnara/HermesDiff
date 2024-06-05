@@ -45,6 +45,43 @@ app.get('/execute-aws-cli-stack-details', (req, res) => {
   });
 });
 
+// 新しいエンドポイントを追加
+app.get('/execute-aws-cli', (req, res) => {
+  const accessKeyId = req.headers['x-aws-access-key-id'];
+  const secretAccessKey = req.headers['x-aws-secret-access-key'];
+  const region = req.headers['x-aws-region'];
+  const cliCommand = req.headers['x-cli-command'];
+
+  if (!accessKeyId || !secretAccessKey || !region || !cliCommand) {
+    res.status(400).send('必要なヘッダーが不足しています');
+    return;
+  }
+
+  const command = `aws ${cliCommand} --region ${region}`;
+  console.log(`実行するコマンド: ${command}`); // コマンドをログに出力
+  exec(command, {
+    env: {
+      ...process.env,
+      AWS_ACCESS_KEY_ID: accessKeyId,
+      AWS_SECRET_ACCESS_KEY: secretAccessKey,
+    }
+  }, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`エラーが発生しました: ${error.message}`);
+      console.error(`標準エラー出力: ${stderr}`);
+      res.status(500).send(`エラーが発生しました: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`標準エラー出力: ${stderr}`);
+      res.status(500).send(`標準エラー出力: ${stderr}`);
+      return;
+    }
+    res.setHeader('Content-Type', 'application/json'); // JSON形式で返す
+    res.send(stdout); // コマンドの出力をそのまま送信
+  });
+});
+
 app.listen(port, () => {
   console.log(`サーバーがポート${port}で起動しました`);
 });
