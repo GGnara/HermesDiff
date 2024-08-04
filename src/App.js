@@ -43,6 +43,7 @@ const App = () => {
   useEffect(() => {
     //リソース句に最低でも一つでもリソースがあること
     if (yamlSections.resourcesGrp) {
+      //グループ全部取得
       store.dispatch(StoreAllGrp(yamlSections));
       //表示サービス
       let selectedService = store.getState().SelectService;

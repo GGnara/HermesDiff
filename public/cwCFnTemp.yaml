@@ -79,6 +79,12 @@ Resources:
       Tags:
         - Key: "Name"
           Value: "DiskReadOpsAlarm"
+        - Key: "use"
+          Value: "ec2use"
+        - Key: "env"
+          Value: "prdss"
+        - Key: "env"
+          Value: "stg"
       ThresholdMetricId: ""
       TreatMissingData: "notBreaching"
       Unit: "Count"

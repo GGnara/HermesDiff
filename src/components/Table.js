@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import store, { StoreSelectServices, StoreSelectService, StoreAllGrp, StoreLogicalID ,StoreCLIDiffKey} from '../store.js';
 import analyzeJsonData from '../utils/analyzeJsonData.js';
 import extractValuesFromJson from '../utils/extractValuesFromJson.js';
+import './Table.css';
 
 // Tableコンポーネントは、整形されたKey Pathセグメントを表示するためのものです。
 const Table = () => {
@@ -167,7 +168,7 @@ function mergeMultipleArrays(...arrays) {
     const cellContent = cell === '' ? 'null' : cell;
 
     return (
-      <span className={`${cellClass} ${columnClass} ${highlightClass}`}>
+      <span className={`${cellClass} ${columnClass} ${highlightClass}`} >
         {cellContent}
       </span>
     );
@@ -266,9 +267,13 @@ function mergeMultipleArrays(...arrays) {
           {valuesOnlyArray.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>
               <tr className={`row-${logicalIds[rowIndex]}`}>
-                {row.map((value, valueIndex) => (
-                  <td key={valueIndex} className="data-value">{value.toString()}</td>
-                ))}
+                {row.map((value, valueIndex) => {
+                  //一応改行は検知しておく
+                  const cellClass = value.toString().includes('\n') ? 'data-value multi-line' : 'data-value';
+                  return (
+                    <td key={valueIndex} className={cellClass} >{value.toString()}</td>
+                  );
+                })}
               </tr>
               {TaggleCLIValuesFlg && (
                 <tr className={`row-cli-${logicalIds[rowIndex]}`}>

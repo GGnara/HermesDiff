@@ -1,6 +1,7 @@
 import axios from 'axios';
 import store from '../store.js';
 
+//aws コマンド実行
 export const fetchAwsData = async (awsAccessKeyId, awsSecretAccessKey, awsRegion, cliCommand) => {
   try {
     const stackName = store.getState().StackName; // StoreStackNameを取得
@@ -20,7 +21,7 @@ export const fetchAwsData = async (awsAccessKeyId, awsSecretAccessKey, awsRegion
     throw error;
   }
 };
-
+// stack情報取得
 export const fetchAwsStackDetails = async (accessKeyId, secretAccessKey, region) => {
   try {
     const stackName = store.getState().StackName; // StoreStackNameを取得
