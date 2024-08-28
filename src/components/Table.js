@@ -227,11 +227,12 @@ function mergeMultipleArrays(...arrays) {
     <div>
       <table>
         <thead>
-          <tr>
+          {/* デバック用カラムナンバー */}
+          {/* <tr>
             {formattedKeyPathSegments[0]?.map((_, index) => (
               <th key={index} className={`column-${index}`}>Column {index + 1}</th>
             ))}
-          </tr>
+          </tr> */}
         </thead>
         <tbody>
           {formattedKeyPathSegments.map((row, rowIndex) => {

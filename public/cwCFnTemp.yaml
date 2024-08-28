@@ -39,13 +39,9 @@ Resources:
         - Name: "InstanceId"
           Value: !Ref InstanceId
       DatapointsToAlarm: 1
-      EvaluateLowSampleCountPercentile: "ignore"
-      ExtendedStatistic: "p99"
-      Metrics: []
       Tags:
         - Key: "Name"
           Value: "CPUAlarm"
-      ThresholdMetricId: ""
       TreatMissingData: "notBreaching"
       Unit: "Percent"
 
@@ -73,19 +69,13 @@ Resources:
         - Name: "InstanceId"
           Value: !Ref InstanceId
       DatapointsToAlarm: 1
-      EvaluateLowSampleCountPercentile: "ignore"
-      ExtendedStatistic: "p99"
-      Metrics: []
       Tags:
         - Key: "Name"
           Value: "DiskReadOpsAlarm"
         - Key: "use"
           Value: "ec2use"
         - Key: "env"
-          Value: "prdss"
-        - Key: "env"
           Value: "stg"
-      ThresholdMetricId: ""
       TreatMissingData: "notBreaching"
       Unit: "Count"
 
@@ -113,13 +103,9 @@ Resources:
         - Name: "InstanceId"
           Value: !Ref InstanceId
       DatapointsToAlarm: 1
-      EvaluateLowSampleCountPercentile: "ignore"
-      ExtendedStatistic: "p99"
-      Metrics: []
       Tags:
         - Key: "Name"
           Value: "NetworkInAlarm"
-      ThresholdMetricId: ""
       TreatMissingData: "notBreaching"
       Unit: "Bytes"
 
@@ -168,40 +154,6 @@ Resources:
     Properties:
       DisplayName: "My SNSTopic3"
 
-  MySNSTopic4:
-    Type: AWS::SNS::Topic
-    Properties:
-      DisplayName: "My SNSTopic4"
-
-  MySNSTopic5:
-    Type: AWS::SNS::Topic
-    Properties:
-      DisplayName: "My SNSTopic5"
-
-  MySNSTopic6:
-    Type: AWS::SNS::Topic
-    Properties:
-      DisplayName: "My SNSTopic6"
-
-  MySNSTopic7:
-    Type: AWS::SNS::Topic
-    Properties:
-      DisplayName: "My SNSTopic7"
-
-  MySNSTopic8:
-    Type: AWS::SNS::Topic
-    Properties:
-      DisplayName: "My SNSTopic8"
-
-  MySNSTopic9:
-    Type: AWS::SNS::Topic
-    Properties:
-      DisplayName: "My SNSTopic9"
-
-  MySNSTopic10:
-    Type: AWS::SNS::Topic
-    Properties:
-      DisplayName: "My SNSTopic10"
 
   MyLogGroup1:
     Type: AWS::Logs::LogGroup
