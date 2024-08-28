@@ -1,20 +1,69 @@
 /* src/index.css */
-table, th, td {
-  border: 1px solid black;
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+button {
+  background-color: #16213e;
+  color: #e0e0e0;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0f3460;
+}
+
+input, select {
+  background-color: #16213e;
+  color: #e0e0e0;
+  border: 1px solid #0f3460;
+  padding: 8px;
+  border-radius: 5px;
 }
 
 table {
-  border-collapse: collapse;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
 }
 
 th, td {
-  padding: 5px;
+  border: 1px solid #0f3460;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #16213e;
+  color: #e94560;
 }
 
 .empty-cell {
-  background-color: #eee; /* 空白のセルの背景色を変更 */
+  background-color: #1f1f3d;
 }
 
-body {
-  margin: 0;
+.data-value {
+  background-color: #16213e;
 }

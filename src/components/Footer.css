@@ -1,8 +1,7 @@
 .footer {
-    background-color: #333;
-    color: white;
+    background-color: #16213e;
+    color: #e0e0e0;
     padding: 1rem;
     text-align: center;
-    height: 50px; /* 例: フッターの高さを固定 */
-
+    margin-top: auto;
 }

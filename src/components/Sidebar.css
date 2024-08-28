@@ -1,27 +1,33 @@
 .sidebar-item {
-    padding: 10px;
+    padding: 15px;
     cursor: pointer;
+    color: #e0e0e0;
+    transition: background-color 0.3s ease;
 }
 
 .sidebar-item:hover {
-    background-color: #e0e0e0; /* オーバーレイした際の色 */
+    background-color: #0f3460;
 }
 
 .sidebar-item:active {
-    background-color: #c0c0c0; /* クリックしたときの色 */
+    background-color: #e94560;
+    color: #16213e;
 }
 
 .back-to-main-menu {
     width: 100%;
-    padding: 10px;
-    background-color: #f0f0f0;
+    padding: 15px;
+    background-color: #0f3460;
     border: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #16213e;
     cursor: pointer;
     font-size: 14px;
     text-align: left;
+    color: #e0e0e0;
+    transition: background-color 0.3s ease;
 }
 
 .back-to-main-menu:hover {
-    background-color: #e0e0e0;
+    background-color: #e94560;
+    color: #16213e;
 }
