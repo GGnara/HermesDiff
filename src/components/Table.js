@@ -239,6 +239,9 @@ function mergeMultipleArrays(...arrays) {
             let colSpanIndex = null;
             return (
               <tr key={rowIndex}>
+                {rowIndex === 0 && (
+                  <td className="logical-id" rowSpan={formattedKeyPathSegments.length}>論理ID</td>
+                )}
                 {row.map((cell, cellIndex) => {
                   if (colSpanIndex !== null && cellIndex < colSpanIndex) {
                     return null;
@@ -268,6 +271,7 @@ function mergeMultipleArrays(...arrays) {
           {valuesOnlyArray.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>
               <tr className={`row-${logicalIds[rowIndex]}`}>
+                <td className="logical-id">{logicalIds[rowIndex]}</td>
                 {row.map((value, valueIndex) => {
                   //一応改行は検知しておく
                   const cellClass = value.toString().includes('\n') ? 'data-value multi-line' : 'data-value';
@@ -278,6 +282,7 @@ function mergeMultipleArrays(...arrays) {
               </tr>
               {TaggleCLIValuesFlg && (
                 <tr className={`row-cli-${logicalIds[rowIndex]}`}>
+                  <td className="logical-id"></td>
                   {row.map((_, valueIndex) => (
                     <td key={`cli-${valueIndex}`} className="data-value"></td>
                   ))}
