@@ -1,16 +1,28 @@
 import React from 'react';
 import './Sidebar.css';
-import store, { StoreSelectService } from '../store.js';
+import store, { StoreSelectService, StoreSelectCFn } from '../store.js';
+import { useDispatch } from 'react-redux';
 
 const Sidebar = ({ subValuesArray }) => {
   const listServices = store.getState().SelectServices;
+  const dispatch = useDispatch();
 
   const handleClick = (item) => {
     store.dispatch(StoreSelectService(item));
   };
 
+  const handleBackToMainMenu = () => {
+    dispatch(StoreSelectCFn(false));
+  };
+
   return (
     <div className="sidebar">
+      <button 
+        className="back-to-main-menu" 
+        onClick={handleBackToMainMenu}
+      >
+        メインメニューに戻る
+      </button>
       {/* サイドバーの内容 */}
       {listServices.map((item, index) => (
         <div 

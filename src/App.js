@@ -8,8 +8,9 @@ import useYamlhook from './hooks/useYamlhook.js';
 import loadYamlData from './utils/loadYamlData.js';
 import downloadExcel from './utils/downloadExcel.js';
 import Layout from './components/Layout.js';
+import MainMenu from './components/MainMenu/MainMenu.js';
 import './index.css';
-import store, { StoreSelectServices, StoreSelectService, StoreAllGrp ,StoreStackName} from './store.js';
+import store, { StoreSelectServices, StoreSelectService, StoreAllGrp, StoreStackName } from './store.js';
 
 const App = () => {
   const dataForExcel = useYamlhook('/alarmConfig.yaml');
@@ -18,11 +19,11 @@ const App = () => {
     mappings: {},
     resources: {},
     outputs: {},
-    subValuesArray: [] // subValuesArrayを追加
+    subValuesArray: []
   });
 
-  // layoutDataを状態として定義
   const selectedService = useSelector(state => state.SelectService);
+  const selectedCFn = useSelector(state => state.SelectCFn);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,42 +40,37 @@ const App = () => {
     fetchData();
   }, []);
 
-  //サービス一覧と初期サービス登録
   useEffect(() => {
-    //リソース句に最低でも一つでもリソースがあること
     if (yamlSections.resourcesGrp) {
-      //グループ全部取得
       store.dispatch(StoreAllGrp(yamlSections));
-      //表示サービス
       let selectedService = store.getState().SelectService;
-      //storeにサービスがない場合、Yamlの一番上のサービス指定
       if (!selectedService) {
         selectedService = yamlSections.resourcesGrp[0].values[0].subValue;
         store.dispatch(StoreSelectService(selectedService));
       }
-      //storeにサービス一覧登録
       store.dispatch(StoreSelectServices(yamlSections.subValuesArray));
     }
   }, [yamlSections, selectedService]);
 
-  // Storeの状態を取得する関数を定義
   const isStoreReady = () => {
     const state = store.getState().StoreAllGrp;
     return state && state.resourcesGrp && state.resourcesGrp.length > 0;
   };
 
-  // ダウンロードボタンが押されたときの処理
   const handleDownload = () => {
     downloadExcel(dataForExcel, 'AlarmConfig.xlsx');
   };
 
-  // 条件に基づいてLayoutコンポーネントをレンダリング
   return (
     <div>
-      {isStoreReady() ? (
-        <Layout/>
+      {selectedCFn ? (
+        isStoreReady() ? (
+          <Layout />
+        ) : (
+          <div>データをロード中...</div>
+        )
       ) : (
-        <div>データをロード中...</div>
+        <MainMenu />
       )}
     </div>
   );

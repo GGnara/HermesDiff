@@ -10,3 +10,18 @@
 .sidebar-item:active {
     background-color: #c0c0c0; /* クリックしたときの色 */
 }
+
+.back-to-main-menu {
+    width: 100%;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: left;
+}
+
+.back-to-main-menu:hover {
+    background-color: #e0e0e0;
+}

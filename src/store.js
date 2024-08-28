@@ -39,6 +39,9 @@ const itemsSlice = createSlice({
     },
     StoreCLIDiffKey: (state, action) => {
       state.CLIDiffKey = action.payload; // CLIの差分キーを保存
+    },
+    StoreSelectCFn: (state, action) => {
+      state.SelectCFn = action.payload;
     }
   }
 });
@@ -48,7 +51,7 @@ const store = configureStore({
   reducer: itemsSlice.reducer
 });
 
-export const { StoreSelectServices, StoreSelectService, StoreCLIValue, StoreAllGrp, StoreTaggleCLIValuesFlg, StoreStackName, StoreLogicalID, StoreCLIDiffKey } = itemsSlice.actions;
+export const { StoreSelectServices, StoreSelectService, StoreCLIValue, StoreAllGrp, StoreTaggleCLIValuesFlg, StoreStackName, StoreLogicalID, StoreCLIDiffKey, StoreSelectCFn } = itemsSlice.actions;
 export default store;
 
 // 使用方法
