@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import store, { StoreSelectServices, StoreSelectService, StoreAllGrp, StoreLogicalID ,StoreCLIDiffKey} from '../store.js';
-import analyzeJsonData from '../utils/analyzeJsonData.js';
-import extractValuesFromJson from '../utils/extractValuesFromJson.js';
+import store, { StoreSelectServices, StoreSelectService, StoreAllGrp, StoreLogicalID ,StoreCLIDiffKey} from '../../store.js';
+import analyzeJsonData from '../../utils/analyzeJsonData.js';
+import extractValuesFromJson from '../../utils/extractValuesFromJson.js';
 import './Table.css';
 
 // Tableコンポーネントは、整形されたKey Pathセグメントを表示するためのものです。

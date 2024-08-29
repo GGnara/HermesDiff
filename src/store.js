@@ -6,9 +6,10 @@ const initialState = {
   SelectService: "", // 選択されたサービスを初期化
   SelectServices: [], // サービス一覧の配列を初期状態として設定
   processingFlag: false, // 処理中フラグを初期化
-  StackName: "", // スタック名を初期化
+  StackName: "Nodata", // スタック名を初期化、初期値の場合はメインメニューに強制変遷
   LogicalID: "", // 論理IDを初期化
-  CLIDiffKey: "" // CLI比較用の現状のkey
+  CLIDiffKey: "", // CLI比較用の現状のkey
+  SelectCFn: false // StoreSelectCFnの初期値をfalseに設定
 };
 
 // スライスの作成

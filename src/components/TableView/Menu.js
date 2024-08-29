@@ -1,9 +1,9 @@
 import './Menu.css'; // Menuのスタイルシートをインポート
-import { fetchAwsStackDetails, fetchAwsData } from '../utils/api.js';
-import store, { StoreCLIValue, StoreTaggleCLIValuesFlg } from '../store.js';
+import { fetchAwsStackDetails, fetchAwsData } from '../../utils/api.js';
+import store, { StoreCLIValue, StoreTaggleCLIValuesFlg } from '../../store.js';
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import useCompareCLIValues from '../hooks/useCompareCLIValues.js';
+import useCompareCLIValues from '../../hooks/useCompareCLIValues.js';
 
 const Menu = () => {
   // ReduxのストアからCLIの値を取得
@@ -38,7 +38,8 @@ const Menu = () => {
       console.log('AWS Stack Details:', stackDetails);
       
       // fetchAwsStackDetailsの結果が終わってからfetchAwsDataを実行
-      const cliCommand = `cloudwatch describe-alarms --alarm-names ${stackDetails[0][1]}`; // ハードコーディングされたCLIコマンド
+      const stackName = store.getState().StackName; 
+      const cliCommand = `cloudformation describe-stack-resource-drifts --stack-name ${stackName} --stack-resource-drift-status-filters IN_SYNC MODIFIED DELETED NOT_CHECKED --output json`; // ハードコーディングされたCLIコマンド
       const data = await fetchAwsData(awsAccessKeyId, awsSecretAccessKey, awsRegion, cliCommand);
       
       // console.log('AWS CLIデータ:', data);

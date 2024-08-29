@@ -1,6 +1,6 @@
 import React from 'react';
 import './Sidebar.css';
-import store, { StoreSelectService, StoreSelectCFn } from '../store.js';
+import store, { StoreSelectService, StoreSelectCFn } from '../../store.js';
 import { useDispatch } from 'react-redux';
 
 const Sidebar = ({ subValuesArray }) => {

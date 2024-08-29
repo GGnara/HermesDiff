@@ -38,12 +38,12 @@ tr:nth-child(odd) {
   color: #f0f0f0;
   font-weight: bold;
   white-space: nowrap;
-  padding: 12px;
+  padding:12px;
   max-width: 200px; /* 最大幅を設定 */
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 200px; /* 固定幅を設定 */
-  min-width: 200px; /* 最小幅も設定 */
+  width: 100px; /* 固定幅を設定 */
+  min-width: 100px; /* 最小幅も設定 */
 }
 
 .logical-id:hover {
@@ -56,13 +56,10 @@ tr:nth-child(odd) {
 
 .data-value {
   background-color: #16213e;
-  color: #011111;
+  color: #010f0f;
 }
 
-.highlighted-cell {
-  background-color: #533483;
-  color: #f0f0f0;
-}
+
 
 td {
   color: #a0e0e0;
@@ -88,7 +85,7 @@ td.multi-line {
   white-space: pre-wrap;
   word-break: break-word;
   max-width: none;
-  min-width: 200px; /* 最小幅を設定 */
+  min-width: 300px; /* 最小幅を設定 */
   width: auto; /* 幅を自動調整 */
   overflow: visible;
 }

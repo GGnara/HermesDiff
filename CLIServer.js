@@ -2,6 +2,8 @@ import express from 'express';
 import { exec } from 'child_process';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
+import fs from 'fs';
 
 // .envファイルから環境変数を読み込む
 dotenv.config();
@@ -81,6 +83,22 @@ app.get('/execute-aws-cli', (req, res) => {
     res.send(stdout); // コマンドの出力をそのまま送信
   });
 });
+
+// CFnのYAMLファイルリストを取得するエンドポイント
+app.get('/list-cfn-yaml', (req, res) => {
+  const cfnYamlDir = path.join(process.cwd(), 'public/CfnYaml');
+  fs.readdir(cfnYamlDir, (err, files) => {
+    if (err) {
+      console.error('ディレクトリの読み取りエラー:', err);
+      res.status(500).send('CFnのYAMLファイルリストの取得に失敗しました');
+      return;
+    }
+
+    const yamlFiles = files.filter(file => file.endsWith('.yaml') || file.endsWith('.yml'));
+    res.json(yamlFiles);
+  });
+});
+
 
 app.listen(port, () => {
   console.log(`サーバーがポート${port}で起動しました`);

@@ -9,9 +9,21 @@ const MainMenu = () => {
 
   useEffect(() => {
     // ここでCFnのリストを取得する処理を実装
-    // 例: APIからデータを取得するなど
-    const dummyCfnList = ['CFn1', 'CFn2', 'CFn3'];
-    setCfnList(dummyCfnList);
+    const fetchCfnList = async () => {
+      try {
+        const response = await fetch('http://localhost:53906/list-cfn-yaml');
+        if (response.ok) {
+          const yamlFiles = await response.json();
+          setCfnList(yamlFiles);
+        } else {
+          console.error('CFnリストの取得に失敗しました');
+        }
+      } catch (error) {
+        console.error('エラーが発生しました:', error);
+      }
+    };
+
+    fetchCfnList();
   }, []);
 
   const handleCfnSelect = (cfn) => {
