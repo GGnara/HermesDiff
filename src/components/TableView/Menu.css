@@ -7,6 +7,7 @@
     background-color: #16213e;
     transition: width 0.3s ease;
     overflow-y: auto;
+    overflow-x: hidden;
     z-index: 1000;
 }
 

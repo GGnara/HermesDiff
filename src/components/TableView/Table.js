@@ -224,7 +224,7 @@ function mergeMultipleArrays(...arrays) {
 
   // テーブルのヘッダーとボディを生成し、表示します。
   return (
-    <div>
+    <div class="table-View">
       <table>
         <thead>
           {/* デバック用カラムナンバー */}
