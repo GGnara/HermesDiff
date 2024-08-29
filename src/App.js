@@ -33,7 +33,7 @@ const App = () => {
           store.dispatch(StoreSelectCFn(false));
           return;
         }
-        const yamlFilePath = `/CfnYaml/${stackName}`;
+        const yamlFilePath = `/CfnYaml/${stackName}.yaml`;
         const data = await loadYamlData(yamlFilePath);
         setYamlSections(data);
       } catch (error) {

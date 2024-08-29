@@ -94,7 +94,9 @@ app.get('/list-cfn-yaml', (req, res) => {
       return;
     }
 
-    const yamlFiles = files.filter(file => file.endsWith('.yaml') || file.endsWith('.yml'));
+    const yamlFiles = files
+      .filter(file => file.endsWith('.yaml') || file.endsWith('.yml'))
+      .map(file => file.replace(/\.(yaml|yml)$/, ''));
     res.json(yamlFiles);
   });
 });
