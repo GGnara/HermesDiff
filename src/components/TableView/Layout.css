@@ -1,8 +1,16 @@
 .layout {
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #1a1a2e;
+}
+
+.main-content {
+    flex-grow: 1;
+    margin-left: 250px; /* メニューの幅と同じ */
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.menu-collapsed {
+    margin-left: 60px; /* 折りたたまれたメニューの幅 */
 }
 
 .content-area {

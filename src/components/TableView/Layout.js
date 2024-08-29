@@ -1,24 +1,23 @@
-import React from 'react';
-import Table from './Table.js'; // 拡張子を追加
-import Menu from './Menu.js'; // 拡張子を追加
-import Header from './Header.js'; // 拡張子を追加
-import Footer from './Footer.js'; // 拡張子を追加
-import Sidebar from './Sidebar.js'; // 拡張子を追加
-import './Layout.css'; // スタイルシートをインポート
+import React, { useState } from 'react';
+import Menu from './Menu.js';
+import Table from './Table.js';
+import './Layout.css';
 
-const Layout = ({ formattedKeyPathSegments, valuesOnlyArray}) => {
+const Layout = () => {
+  const [isMenuCollapsed, setIsMenuCollapsed] = useState(false);
+
+  const handleMenuCollapse = (collapsed) => {
+    setIsMenuCollapsed(collapsed);
+  };
+
   return (
     <div className="layout">
-      <Header />
-      <div className="content-area">
-        <Sidebar />
-        <main>
-          <Menu />
-          <Table formattedKeyPathSegments={formattedKeyPathSegments} valuesOnlyArray={valuesOnlyArray} />
-        </main>
-      </div>
-      <Footer />
+      <Menu onCollapse={handleMenuCollapse} />
+      <main className={`main-content ${isMenuCollapsed ? 'menu-collapsed' : ''}`}>
+        <Table />
+      </main>
     </div>
   );
 };
+
 export default Layout;

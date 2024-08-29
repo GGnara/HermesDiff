@@ -1,31 +1,26 @@
 import './Menu.css'; // Menuのスタイルシートをインポート
 import { fetchAwsStackDetails, fetchAwsData } from '../../utils/api.js';
-import store, { StoreCLIValue, StoreTaggleCLIValuesFlg } from '../../store.js';
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import store, { StoreCLIValue, StoreTaggleCLIValuesFlg, StoreSelectService, StoreSelectCFn } from '../../store.js';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import useCompareCLIValues from '../../hooks/useCompareCLIValues.js';
 
-const Menu = () => {
-  // ReduxのストアからCLIの値を取得
-  const cliValue = useSelector(state => state.StoreCLIValue);
-  // Reduxのストアから選択されたサービスを取得
-  const selectedService = useSelector(state => state.SelectService);
+const Menu = ({ onCollapse }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState('');
+  const listServices = useSelector(state => state.SelectServices);
+  const dispatch = useDispatch();
 
-  // カスタムフックを使用してフィルタリングされたCLIの値を取得
-  const filteredValues = useCompareCLIValues();
+  const toggleMenu = () => {
+    const newCollapsedState = !isCollapsed;
+    setIsCollapsed(newCollapsedState);
+    onCollapse(newCollapsedState);
+  };
 
-  useEffect(() => {
-    // CLIの値をコンソールに出力
-    // console.log('CLI Value:', cliValue);
-    // // 選択されたサービスをコンソールに出力
-    // console.log('Selected Service:', selectedService);
-    // // フィルタリングされたCLIの値をコンソールに出力
-    // console.log('Filtered CLI Values:', filteredValues);
-  }, [cliValue, selectedService, filteredValues]); // cliValueまたはselectedServiceが変更された場合に再実行
-
-  //CLI 処理ボタン
   const handleClick = async () => {
-    //cli処理開始flag
+    setIsModalOpen(true);
+    setModalContent('処理を開始しています...');
     store.dispatch(StoreTaggleCLIValuesFlg());
     try {
       const awsAccessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
@@ -34,27 +29,67 @@ const Menu = () => {
       if (!awsAccessKeyId || !awsSecretAccessKey || !awsRegion) {
         throw new Error('AWS環境変数が設定されていません');
       }
+      setModalContent('スタックの詳細を取得中...');
       const stackDetails = await fetchAwsStackDetails(awsAccessKeyId, awsSecretAccessKey, awsRegion);
       console.log('AWS Stack Details:', stackDetails);
       
-      // fetchAwsStackDetailsの結果が終わってからfetchAwsDataを実行
+      setModalContent('CLIコマンドを実行中...');
       const stackName = store.getState().StackName; 
-      const cliCommand = `cloudformation describe-stack-resource-drifts --stack-name ${stackName} --stack-resource-drift-status-filters IN_SYNC MODIFIED DELETED NOT_CHECKED --output json`; // ハードコーディングされたCLIコマンド
+      const cliCommand = `cloudformation describe-stack-resource-drifts --stack-name ${stackName} --stack-resource-drift-status-filters IN_SYNC MODIFIED DELETED NOT_CHECKED --output json`;
       const data = await fetchAwsData(awsAccessKeyId, awsSecretAccessKey, awsRegion, cliCommand);
       
-      // console.log('AWS CLIデータ:', data);
       store.dispatch(StoreCLIValue(data));
       console.log('ストアのCLIValue:', store.getState().StoreCLIValue);
+      setModalContent('処理が完了しました。');
     } catch (error) {
       console.error('AWS CLIデータの取得に失敗しました:', error);
-      alert('環境変数の取得に失敗しました。詳細はコンソールを確認してください。');
+      setModalContent('エラーが発生しました。詳細はコンソールを確認してください。');
     }
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalContent('');
+  };
+
+  const handleServiceClick = (item) => {
+    dispatch(StoreSelectService(item));
+  };
+
+  const handleBackToMainMenu = () => {
+    dispatch(StoreSelectCFn(false));
+  };
+
   return (
-    <nav className="menu">
-      メニュー
-      <button onClick={handleClick}>クリック</button>
+    <nav className={`menu ${isCollapsed ? 'collapsed' : ''}`}>
+      <button className="toggle-button" onClick={toggleMenu}>
+        {isCollapsed ? '≡' : '<'}
+      </button>
+      <div className="menu-content">
+        <h2>メニュー</h2>
+        <button onClick={handleClick}>クリック</button>
+
+        {listServices.map((item, index) => (
+          <div 
+            key={index} 
+            className="sidebar-item" 
+            onClick={() => handleServiceClick(item)}
+          >
+            {item.replace('AWS::', '')}
+          </div>
+        ))}
+        <button className="back-to-main-menu" onClick={handleBackToMainMenu}>
+          メインメニューに戻る
+        </button>
+      </div>
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <p>{modalContent}</p>
+            <button onClick={closeModal}>閉じる</button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
